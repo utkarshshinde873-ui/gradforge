@@ -449,6 +449,39 @@ export function useResumeData() {
     });
   }, [template, accentColor, sectionVisibility, sectionOrder, pushSnapshot]);
 
+  // 10b. Reorder Array Item Up/Down (Immediate History Push)
+  const reorderArrayItem = useCallback(<K extends keyof Pick<ResumeData, "education" | "experience" | "skills" | "projects" | "certifications" | "achievements">>(
+    key: K,
+    index: number,
+    direction: "up" | "down"
+  ) => {
+    setResumeData(prev => {
+      const list = [...(prev[key] as unknown as Array<unknown>)];
+      const targetIndex = direction === "up" ? index - 1 : index + 1;
+
+      if (targetIndex < 0 || targetIndex >= list.length) return prev;
+
+      const temp = list[index];
+      list[index] = list[targetIndex];
+      list[targetIndex] = temp;
+
+      const nextData = {
+        ...prev,
+        [key]: list,
+      };
+
+      pushSnapshot({
+        resumeData: nextData,
+        template,
+        accentColor,
+        sectionVisibility,
+        sectionOrder,
+      }, false);
+
+      return nextData;
+    });
+  }, [template, accentColor, sectionVisibility, sectionOrder, pushSnapshot]);
+
   // 11. Load Sample (Immediate History Push)
   const loadSample = useCallback(() => {
     const nextData = sampleResume;
@@ -580,5 +613,6 @@ export function useResumeData() {
     canUndo,
     canRedo,
     autoFormatAllText,
+    reorderArrayItem,
   };
 }

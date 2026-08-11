@@ -19,6 +19,8 @@ import { AchievementsForm } from "@/components/editor/AchievementsForm";
 import { ResumePreview } from "@/components/preview/ResumePreview";
 import { AIResumeAssistantCard } from "@/components/ai/AIResumeAssistantCard";
 import { AIImportModal } from "@/components/ai/AIImportModal";
+import { ATSScoreModal } from "@/components/modals/ATSScoreModal";
+import { JobMatchModal } from "@/components/modals/JobMatchModal";
 import { SkillItem } from "@/types/resume";
 
 import { 
@@ -76,6 +78,7 @@ function BuilderContent() {
     canUndo,
     canRedo,
     autoFormatAllText,
+    reorderArrayItem,
   } = useResumeData();
 
   // Mobile tab state: 'edit' or 'preview'
@@ -83,7 +86,16 @@ function BuilderContent() {
   const [isExporting, setIsExporting] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string>("Saved locally");
   const [isAIImportModalOpen, setIsAIImportModalOpen] = useState(false);
+  const [isATSModalOpen, setIsATSModalOpen] = useState(false);
+  const [isJobMatchModalOpen, setIsJobMatchModalOpen] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showFormatToast, setShowFormatToast] = useState(false);
+
+  const handleAutoFormatText = () => {
+    autoFormatAllText();
+    setShowFormatToast(true);
+    setTimeout(() => setShowFormatToast(false), 5000);
+  };
 
   const handleAIImport = (newSummary: string, newSkills: SkillItem[]) => {
     setResumeData({
@@ -414,6 +426,7 @@ function BuilderContent() {
                   onAdd={item => addArrayItem("experience", item)}
                   onUpdate={(id, fields) => updateArrayItem("experience", id, fields)}
                   onRemove={id => removeArrayItem("experience", id)}
+                  onReorder={(idx, dir) => reorderArrayItem("experience", idx, dir)}
                 />
               </div>
             )}
@@ -588,6 +601,7 @@ function BuilderContent() {
                   onAdd={item => addArrayItem("projects", item)}
                   onUpdate={(id, fields) => updateArrayItem("projects", id, fields)}
                   onRemove={id => removeArrayItem("projects", id)}
+                  onReorder={(idx, dir) => reorderArrayItem("projects", idx, dir)}
                 />
               </div>
             )}
@@ -943,7 +957,7 @@ function BuilderContent() {
           {/* AI Resume Assistant & Formatting Card */}
           <AIResumeAssistantCard 
             onOpenImportModal={() => setIsAIImportModalOpen(true)} 
-            onAutoFormatText={autoFormatAllText} 
+            onAutoFormatText={handleAutoFormatText} 
           />
 
           {/* 1. Personal Information (Always fixed at top of form editor) */}
@@ -989,7 +1003,25 @@ function BuilderContent() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  onClick={() => setIsATSModalOpen(true)}
+                  className="text-xs bg-zinc-900 hover:bg-zinc-800 text-white font-semibold px-2.5 py-1 rounded flex items-center gap-1 transition-all shadow-2xs cursor-pointer"
+                  title="Analyze ATS Readiness score & structural compatibility"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-slate-200" />
+                  <span>ATS Score</span>
+                </button>
+
+                <button
+                  onClick={() => setIsJobMatchModalOpen(true)}
+                  className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-2.5 py-1 rounded border border-slate-300 flex items-center gap-1 transition-all cursor-pointer"
+                  title="Match your resume against a target job description"
+                >
+                  <Briefcase className="w-3.5 h-3.5 text-zinc-900" />
+                  <span className="hidden sm:inline">Job Match</span>
+                </button>
+
                 <button
                   onClick={() => window.print()}
                   className="text-xs text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded font-medium flex items-center gap-1 transition-colors"
@@ -998,6 +1030,7 @@ function BuilderContent() {
                   <Printer className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Print</span>
                 </button>
+
                 <button
                   onClick={handleDownloadPdf}
                   disabled={isExporting}
@@ -1037,7 +1070,22 @@ function BuilderContent() {
         }}
       />
 
-      {/* Global Success Toast Notification */}
+      {/* ATS Readiness Score Modal */}
+      <ATSScoreModal
+        isOpen={isATSModalOpen}
+        onClose={() => setIsATSModalOpen(false)}
+        resumeData={resumeData}
+        onOpenJobMatch={() => setIsJobMatchModalOpen(true)}
+      />
+
+      {/* Job Description Match Modal */}
+      <JobMatchModal
+        isOpen={isJobMatchModalOpen}
+        onClose={() => setIsJobMatchModalOpen(false)}
+        resumeData={resumeData}
+      />
+
+      {/* Global AI Import Success Toast */}
       {showSuccessToast && (
         <div className="fixed bottom-6 right-6 z-50 bg-zinc-950 text-white border border-emerald-500/50 shadow-2xl px-4 sm:px-5 py-3.5 rounded-2xl flex items-center gap-3 animate-slide-up max-w-[90vw]">
           <div className="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg border border-emerald-500/40 shrink-0">
@@ -1047,6 +1095,29 @@ function BuilderContent() {
             <div className="font-extrabold text-xs sm:text-sm text-white">Import Successful!</div>
             <div className="text-[11px] sm:text-xs text-zinc-300">✓ AI content imported successfully!</div>
           </div>
+        </div>
+      )}
+
+      {/* Format Text Toast Notification with optional ATS Check button */}
+      {showFormatToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-zinc-950 text-white border border-slate-700 shadow-2xl px-4 sm:px-5 py-3.5 rounded-2xl flex items-center gap-3 animate-slide-up max-w-[90vw]">
+          <div className="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg border border-emerald-500/40 shrink-0">
+            <CheckCircle className="w-5 h-5" />
+          </div>
+          <div className="flex-1">
+            <div className="font-extrabold text-xs sm:text-sm text-white">Resume Formatting Improved</div>
+            <div className="text-[11px] sm:text-xs text-zinc-300">✓ Titles, skills, and dates formatted to Title Case.</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setShowFormatToast(false);
+              setIsATSModalOpen(true);
+            }}
+            className="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg transition-colors shrink-0 cursor-pointer"
+          >
+            Check ATS Score
+          </button>
         </div>
       )}
     </div>

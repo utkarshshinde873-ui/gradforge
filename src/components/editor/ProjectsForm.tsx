@@ -1,6 +1,6 @@
 import React from "react";
 import { ProjectItem } from "@/types/resume";
-import { Plus, Trash2, Code2 } from "lucide-react";
+import { Plus, Trash2, Code2, ArrowUp, ArrowDown } from "lucide-react";
 import { formatTitleCase, formatSentenceCase } from "@/utils/formatText";
 
 interface ProjectsFormProps {
@@ -8,9 +8,10 @@ interface ProjectsFormProps {
   onAdd: (item: ProjectItem) => void;
   onUpdate: (id: string, fields: Partial<ProjectItem>) => void;
   onRemove: (id: string) => void;
+  onReorder?: (index: number, direction: "up" | "down") => void;
 }
 
-export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormProps) {
+export function ProjectsForm({ items, onAdd, onUpdate, onRemove, onReorder }: ProjectsFormProps) {
   const handleAddNew = () => {
     const newItem: ProjectItem = {
       id: "proj-" + Date.now(),
@@ -47,14 +48,40 @@ export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormP
                   <Code2 className="w-4 h-4 text-zinc-800" />
                   <span>Project #{index + 1}</span>
                 </span>
-                <button
-                  type="button"
-                  onClick={() => onRemove(item.id)}
-                  className="text-slate-400 hover:text-red-600 transition-colors p-1 rounded"
-                  title="Remove Project"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                
+                {/* Reorder & Remove controls */}
+                <div className="flex items-center gap-1">
+                  {onReorder && items.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={() => onReorder(index, "up")}
+                        className="p-1 text-slate-400 hover:text-slate-800 disabled:opacity-30 disabled:hover:text-slate-400 transition-colors rounded hover:bg-slate-200 cursor-pointer"
+                        title="Move Up"
+                      >
+                        <ArrowUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === items.length - 1}
+                        onClick={() => onReorder(index, "down")}
+                        className="p-1 text-slate-400 hover:text-slate-800 disabled:opacity-30 disabled:hover:text-slate-400 transition-colors rounded hover:bg-slate-200 cursor-pointer"
+                        title="Move Down"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" />
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => onRemove(item.id)}
+                    className="text-slate-400 hover:text-red-600 transition-colors p-1 rounded hover:bg-red-50 cursor-pointer"
+                    title="Remove Project"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
@@ -111,7 +138,7 @@ export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormP
           <button
             type="button"
             onClick={handleAddNew}
-            className="w-full py-2.5 bg-white border border-slate-300 hover:border-zinc-800 hover:text-zinc-900 text-slate-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-2xs"
+            className="w-full py-2.5 bg-white border border-slate-300 hover:border-zinc-800 hover:text-zinc-900 text-slate-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-2xs cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Add Another Project</span>
