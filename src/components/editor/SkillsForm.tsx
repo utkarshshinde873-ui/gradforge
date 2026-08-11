@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SkillItem } from "@/types/resume";
 import { Plus, Trash2, Tag } from "lucide-react";
+import { formatTitleCase } from "@/utils/formatText";
 
 interface SkillsFormProps {
   items: SkillItem[];
@@ -28,8 +29,8 @@ export function SkillsForm({ items, onAdd, onUpdate, onRemove }: SkillsFormProps
 
     onAdd({
       id: "sk-" + Date.now(),
-      name: newSkillName.trim(),
-      category: newCategory.trim() || "General",
+      name: formatTitleCase(newSkillName.trim()),
+      category: formatTitleCase(newCategory.trim() || "General"),
     });
 
     setNewSkillName("");
@@ -47,6 +48,7 @@ export function SkillsForm({ items, onAdd, onUpdate, onRemove }: SkillsFormProps
               type="text"
               value={newSkillName}
               onChange={e => setNewSkillName(e.target.value)}
+              onBlur={() => setNewSkillName(prev => formatTitleCase(prev))}
               placeholder="e.g. React.js, Python, Git"
               className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
             />

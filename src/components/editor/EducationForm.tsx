@@ -1,6 +1,7 @@
 import React from "react";
 import { EducationItem } from "@/types/resume";
 import { Plus, Trash2, GraduationCap } from "lucide-react";
+import { formatTitleCase } from "@/utils/formatText";
 
 interface EducationFormProps {
   items: EducationItem[];
@@ -64,6 +65,7 @@ export function EducationForm({ items, onAdd, onUpdate, onRemove }: EducationFor
                     type="text"
                     value={item.institution}
                     onChange={e => onUpdate(item.id, { institution: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { institution: formatTitleCase(item.institution) })}
                     placeholder="e.g. University of California"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -75,6 +77,7 @@ export function EducationForm({ items, onAdd, onUpdate, onRemove }: EducationFor
                     type="text"
                     value={item.degree}
                     onChange={e => onUpdate(item.id, { degree: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { degree: formatTitleCase(item.degree) })}
                     placeholder="e.g. Bachelor of Science"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -88,6 +91,7 @@ export function EducationForm({ items, onAdd, onUpdate, onRemove }: EducationFor
                     type="text"
                     value={item.fieldOfStudy}
                     onChange={e => onUpdate(item.id, { fieldOfStudy: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { fieldOfStudy: formatTitleCase(item.fieldOfStudy) })}
                     placeholder="e.g. Computer Science"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -100,6 +104,7 @@ export function EducationForm({ items, onAdd, onUpdate, onRemove }: EducationFor
                       type="text"
                       value={item.startDate}
                       onChange={e => onUpdate(item.id, { startDate: e.target.value })}
+                      onBlur={() => onUpdate(item.id, { startDate: formatTitleCase(item.startDate) })}
                       placeholder="Sep 2020"
                       className="w-full px-2 py-1.5 text-xs bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                     />
@@ -107,6 +112,7 @@ export function EducationForm({ items, onAdd, onUpdate, onRemove }: EducationFor
                       type="text"
                       value={item.endDate}
                       onChange={e => onUpdate(item.id, { endDate: e.target.value })}
+                      onBlur={() => onUpdate(item.id, { endDate: formatTitleCase(item.endDate) })}
                       placeholder="May 2024"
                       className="w-full px-2 py-1.5 text-xs bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                     />

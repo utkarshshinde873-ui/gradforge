@@ -1,6 +1,7 @@
 import React from "react";
 import { ExperienceItem } from "@/types/resume";
 import { Plus, Trash2, Briefcase } from "lucide-react";
+import { formatTitleCase, formatSentenceCase } from "@/utils/formatText";
 
 interface ExperienceFormProps {
   items: ExperienceItem[];
@@ -63,6 +64,7 @@ export function ExperienceForm({ items, onAdd, onUpdate, onRemove }: ExperienceF
                     type="text"
                     value={item.company}
                     onChange={e => onUpdate(item.id, { company: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { company: formatTitleCase(item.company) })}
                     placeholder="e.g. Acme Tech Inc."
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -74,6 +76,7 @@ export function ExperienceForm({ items, onAdd, onUpdate, onRemove }: ExperienceF
                     type="text"
                     value={item.position}
                     onChange={e => onUpdate(item.id, { position: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { position: formatTitleCase(item.position) })}
                     placeholder="e.g. Software Engineering Intern"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -87,6 +90,7 @@ export function ExperienceForm({ items, onAdd, onUpdate, onRemove }: ExperienceF
                     type="text"
                     value={item.startDate}
                     onChange={e => onUpdate(item.id, { startDate: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { startDate: formatTitleCase(item.startDate) })}
                     placeholder="Jun 2023"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -98,6 +102,7 @@ export function ExperienceForm({ items, onAdd, onUpdate, onRemove }: ExperienceF
                     type="text"
                     value={item.endDate}
                     onChange={e => onUpdate(item.id, { endDate: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { endDate: formatTitleCase(item.endDate) })}
                     placeholder="Aug 2023 (or Present)"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -112,6 +117,7 @@ export function ExperienceForm({ items, onAdd, onUpdate, onRemove }: ExperienceF
                   rows={3}
                   value={item.description}
                   onChange={e => onUpdate(item.id, { description: e.target.value })}
+                  onBlur={() => onUpdate(item.id, { description: formatSentenceCase(item.description) })}
                   placeholder="• Developed features using React and TypeScript...&#10;• Collaborated with senior engineers to refactor code..."
                   className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none resize-y"
                 />

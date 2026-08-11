@@ -12,6 +12,7 @@ import {
   initialEmptyResume, 
   sampleResume
 } from "@/types/resume";
+import { formatTitleCase, formatSentenceCase } from "@/utils/formatText";
 
 const STORAGE_KEY = "gradforge_resume_data_v1";
 const TEMPLATE_KEY = "gradforge_resume_template_v1";
@@ -490,6 +491,68 @@ export function useResumeData() {
     }, false);
   }, [template, accentColor, sectionVisibility, sectionOrder, pushSnapshot]);
 
+  // 14. Auto-Format All Resume Text (Title Case & Sentence Case)
+  const autoFormatAllText = useCallback(() => {
+    setResumeData(prev => {
+      const formatted: ResumeData = {
+        personalInfo: {
+          fullName: formatTitleCase(prev.personalInfo.fullName),
+          title: formatTitleCase(prev.personalInfo.title),
+          email: prev.personalInfo.email.toLowerCase().trim(),
+          phone: prev.personalInfo.phone.trim(),
+          location: formatTitleCase(prev.personalInfo.location),
+          linkedin: prev.personalInfo.linkedin.trim(),
+          github: prev.personalInfo.github.trim(),
+          portfolio: prev.personalInfo.portfolio.trim(),
+        },
+        summary: formatSentenceCase(prev.summary),
+        education: prev.education.map(e => ({
+          ...e,
+          institution: formatTitleCase(e.institution),
+          degree: formatTitleCase(e.degree),
+          fieldOfStudy: formatTitleCase(e.fieldOfStudy),
+        })),
+        experience: prev.experience.map(exp => ({
+          ...exp,
+          position: formatTitleCase(exp.position),
+          company: formatTitleCase(exp.company),
+          description: formatSentenceCase(exp.description),
+        })),
+        skills: prev.skills.map(s => ({
+          ...s,
+          name: formatTitleCase(s.name),
+          category: formatTitleCase(s.category || "General"),
+        })),
+        projects: prev.projects.map(p => ({
+          ...p,
+          title: formatTitleCase(p.title),
+          technologies: formatTitleCase(p.technologies || ""),
+          description: formatSentenceCase(p.description),
+        })),
+        certifications: prev.certifications.map(c => ({
+          ...c,
+          title: formatTitleCase(c.title),
+          issuer: formatTitleCase(c.issuer),
+        })),
+        achievements: prev.achievements.map(a => ({
+          ...a,
+          title: formatTitleCase(a.title),
+          description: formatSentenceCase(a.description),
+        })),
+      };
+
+      pushSnapshot({
+        resumeData: formatted,
+        template,
+        accentColor,
+        sectionVisibility,
+        sectionOrder,
+      }, false);
+
+      return formatted;
+    });
+  }, [template, accentColor, sectionVisibility, sectionOrder, pushSnapshot]);
+
   return {
     resumeData,
     setResumeData: updateFullResume,
@@ -515,6 +578,7 @@ export function useResumeData() {
     undo,
     redo,
     canUndo,
-    canRedo
+    canRedo,
+    autoFormatAllText,
   };
 }

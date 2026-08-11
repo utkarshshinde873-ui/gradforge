@@ -1,5 +1,6 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
+import { formatSentenceCase } from "@/utils/formatText";
 
 interface SummaryFormProps {
   summary: string;
@@ -22,6 +23,7 @@ export function SummaryForm({ summary, onChange }: SummaryFormProps) {
         rows={4}
         value={summary}
         onChange={e => onChange(e.target.value)}
+        onBlur={() => onChange(formatSentenceCase(summary))}
         placeholder="e.g. Enthusiastic Computer Science graduate passionate about full-stack software development. Proficient in React, TypeScript, and modern web frameworks with hands-on project experience..."
         className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-zinc-800 focus:border-zinc-800 outline-none transition-all resize-y leading-relaxed"
       />

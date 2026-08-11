@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import { CHATGPT_AI_PROMPT } from "@/utils/aiResumeAssistant";
-import { Sparkles, ClipboardPaste, Check, ExternalLink, Info } from "lucide-react";
+import { Sparkles, ClipboardPaste, Check, ExternalLink, Info, Wand2 } from "lucide-react";
 
 interface AIResumeAssistantCardProps {
   onOpenImportModal: () => void;
+  onAutoFormatText?: () => void;
 }
 
-export function AIResumeAssistantCard({ onOpenImportModal }: AIResumeAssistantCardProps) {
+export function AIResumeAssistantCard({ onOpenImportModal, onAutoFormatText }: AIResumeAssistantCardProps) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [popupBlocked, setPopupBlocked] = useState(false);
 
@@ -46,6 +47,16 @@ export function AIResumeAssistantCard({ onOpenImportModal }: AIResumeAssistantCa
     }, 5000);
   };
 
+  const handleAutoFormat = () => {
+    if (onAutoFormatText) {
+      onAutoFormatText();
+      setToastMessage("✓ Formatting complete! All skills, titles, and text formatted to proper Title Case.");
+      setTimeout(() => {
+        setToastMessage(null);
+      }, 4000);
+    }
+  };
+
   return (
     <div className="bg-slate-900 text-white rounded-xl p-4 sm:p-5 border border-slate-800 shadow-md relative overflow-hidden transition-all">
       {/* Header */}
@@ -57,46 +68,58 @@ export function AIResumeAssistantCard({ onOpenImportModal }: AIResumeAssistantCa
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-extrabold text-sm tracking-tight text-white">
-                AI Resume Assistant
+                AI Resume Assistant & Formatting
               </h3>
               <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700 font-medium">
                 ChatGPT Guided
               </span>
             </div>
             <p className="text-xs text-slate-300 mt-0.5 font-normal">
-              Create a personalized professional summary and skills using ChatGPT.
+              Create summary & skills with ChatGPT, or auto-format all titles to Title Case.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-3">
+      {/* Action Buttons */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 my-3">
         <button
           type="button"
           onClick={handleGenerateWithChatGPT}
-          className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-3.5 py-2.5 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-2.5 py-2 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           title="Copies AI prompt to clipboard and opens ChatGPT in a new tab"
         >
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Generate with ChatGPT</span>
+          <span>ChatGPT AI</span>
         </button>
 
         <button
           type="button"
           onClick={onOpenImportModal}
-          className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold text-xs px-3.5 py-2.5 rounded-lg border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold text-xs px-2.5 py-2 rounded-lg border border-slate-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           title="Paste your generated ChatGPT output to populate your resume"
         >
           <ClipboardPaste className="w-3.5 h-3.5 text-slate-300" />
-          <span>Import AI Content</span>
+          <span>Import AI</span>
         </button>
+
+        {onAutoFormatText && (
+          <button
+            type="button"
+            onClick={handleAutoFormat}
+            className="w-full bg-zinc-800 hover:bg-zinc-700 text-amber-300 font-semibold text-xs px-2.5 py-2 rounded-lg border border-zinc-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            title="Auto-formats all skills, job titles, institutions, and summary text to proper Title Case"
+          >
+            <Wand2 className="w-3.5 h-3.5 text-amber-400" />
+            <span>Format Text</span>
+          </button>
+        )}
       </div>
 
       {/* Helper text */}
       <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-normal">
         <Info className="w-3.5 h-3.5 shrink-0 text-slate-500" />
-        <span>Answer 2 simple questions in ChatGPT, then paste the generated content back here.</span>
+        <span>Click <strong>Format Text</strong> to auto-capitalize all skills, job titles, and locations instantly.</span>
       </div>
 
       {/* Toast Banner */}

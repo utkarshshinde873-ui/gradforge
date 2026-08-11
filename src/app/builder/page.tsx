@@ -74,7 +74,8 @@ function BuilderContent() {
     undo,
     redo,
     canUndo,
-    canRedo
+    canRedo,
+    autoFormatAllText,
   } = useResumeData();
 
   // Mobile tab state: 'edit' or 'preview'
@@ -939,8 +940,11 @@ function BuilderContent() {
       <div className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:overflow-hidden">
         {/* Left Side: Form Editor Accordions */}
         <div className={`lg:col-span-6 xl:col-span-5 lg:h-full lg:overflow-y-auto lg:pr-2 space-y-3.5 pb-8 ${mobileTab === "preview" ? "hidden lg:block" : "block"}`}>
-          {/* AI Resume Assistant Card */}
-          <AIResumeAssistantCard onOpenImportModal={() => setIsAIImportModalOpen(true)} />
+          {/* AI Resume Assistant & Formatting Card */}
+          <AIResumeAssistantCard 
+            onOpenImportModal={() => setIsAIImportModalOpen(true)} 
+            onAutoFormatText={autoFormatAllText} 
+          />
 
           {/* 1. Personal Information (Always fixed at top of form editor) */}
           <div className="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden transition-all">

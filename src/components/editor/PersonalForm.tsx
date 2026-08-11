@@ -2,6 +2,7 @@ import React from "react";
 import { PersonalInfo } from "@/types/resume";
 import { User, Mail, Phone, MapPin, Globe, Briefcase } from "lucide-react";
 import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
+import { formatTitleCase } from "@/utils/formatText";
 
 interface PersonalFormProps {
   data: PersonalInfo;
@@ -21,6 +22,7 @@ export function PersonalForm({ data, onChange }: PersonalFormProps) {
             type="text"
             value={data.fullName}
             onChange={e => onChange("fullName", e.target.value)}
+            onBlur={() => onChange("fullName", formatTitleCase(data.fullName))}
             placeholder="e.g. Alex Johnson"
             className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-zinc-800 focus:border-zinc-800 outline-none transition-all"
           />
@@ -35,6 +37,7 @@ export function PersonalForm({ data, onChange }: PersonalFormProps) {
             type="text"
             value={data.title}
             onChange={e => onChange("title", e.target.value)}
+            onBlur={() => onChange("title", formatTitleCase(data.title))}
             placeholder="e.g. Computer Science Graduate | Software Engineer"
             className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-zinc-800 focus:border-zinc-800 outline-none transition-all"
           />
@@ -51,6 +54,7 @@ export function PersonalForm({ data, onChange }: PersonalFormProps) {
             type="email"
             value={data.email}
             onChange={e => onChange("email", e.target.value)}
+            onBlur={() => onChange("email", data.email.toLowerCase().trim())}
             placeholder="alex.johnson@example.edu"
             className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-zinc-800 focus:border-zinc-800 outline-none transition-all"
           />
@@ -81,6 +85,7 @@ export function PersonalForm({ data, onChange }: PersonalFormProps) {
             type="text"
             value={data.location}
             onChange={e => onChange("location", e.target.value)}
+            onBlur={() => onChange("location", formatTitleCase(data.location))}
             placeholder="Seattle, WA"
             className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-zinc-800 focus:border-zinc-800 outline-none transition-all"
           />

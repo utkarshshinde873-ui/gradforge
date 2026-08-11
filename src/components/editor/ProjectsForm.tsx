@@ -1,6 +1,7 @@
 import React from "react";
 import { ProjectItem } from "@/types/resume";
 import { Plus, Trash2, Code2 } from "lucide-react";
+import { formatTitleCase, formatSentenceCase } from "@/utils/formatText";
 
 interface ProjectsFormProps {
   items: ProjectItem[];
@@ -63,6 +64,7 @@ export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormP
                     type="text"
                     value={item.title}
                     onChange={e => onUpdate(item.id, { title: e.target.value })}
+                    onBlur={() => onUpdate(item.id, { title: formatTitleCase(item.title) })}
                     placeholder="e.g. GradForge Resume Builder"
                     className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                   />
@@ -86,6 +88,7 @@ export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormP
                   type="text"
                   value={item.technologies}
                   onChange={e => onUpdate(item.id, { technologies: e.target.value })}
+                  onBlur={() => onUpdate(item.id, { technologies: formatTitleCase(item.technologies) })}
                   placeholder="e.g. Next.js, TypeScript, Tailwind CSS, LocalStorage"
                   className="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none"
                 />
@@ -97,6 +100,7 @@ export function ProjectsForm({ items, onAdd, onUpdate, onRemove }: ProjectsFormP
                   rows={2}
                   value={item.description}
                   onChange={e => onUpdate(item.id, { description: e.target.value })}
+                  onBlur={() => onUpdate(item.id, { description: formatSentenceCase(item.description) })}
                   placeholder="Describe the problem solved, main features, or performance accomplishments..."
                   className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-zinc-800 outline-none resize-y"
                 />
