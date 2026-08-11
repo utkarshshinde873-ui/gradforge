@@ -857,7 +857,7 @@ function BuilderContent() {
 
             <button
               onClick={loadSample}
-              className="inline-flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-2 sm:px-2.5 py-1.5 rounded-lg border border-slate-700 transition-colors shrink-0 min-h-[36px]"
+              className="hidden sm:inline-flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-2.5 py-1.5 rounded-lg border border-slate-700 transition-colors shrink-0 min-h-[36px]"
               title="Load Sample Graduate Data"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
@@ -876,9 +876,10 @@ function BuilderContent() {
             <button
               onClick={handleDownloadPdf}
               disabled={isExporting}
-              className="inline-flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 disabled:opacity-50 text-white font-semibold text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-lg transition-all shadow-sm shrink-0 min-h-[36px]"
+              className="inline-flex items-center gap-1 bg-white hover:bg-slate-100 text-zinc-950 font-bold text-xs sm:text-sm px-2.5 sm:px-3.5 py-1.5 rounded-lg transition-all shadow-sm shrink-0 min-h-[34px] cursor-pointer"
+              title="Download PDF Resume"
             >
-              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-200" />
+              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-950" />
               <span>{isExporting ? "Exporting..." : "PDF"}</span>
             </button>
           </div>
@@ -888,23 +889,33 @@ function BuilderContent() {
       {/* Mobile Sticky Control Bar (Demo/Clear/Undo/Redo + Templates + Edit/Preview tabs) */}
       <div className="lg:hidden bg-white border-b border-slate-200 px-3 py-2 flex flex-col gap-2 text-xs w-full max-w-full overflow-x-hidden shadow-2xs">
         <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
-          {/* Quick Mobile Action Buttons: Load Demo & Clear */}
-          <div className="flex items-center gap-1.5">
+          {/* Quick Mobile Action Buttons: PDF Export, Load Demo & Clear */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isExporting}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-900 text-white font-bold text-[11px] min-h-[34px] hover:bg-zinc-800 transition-colors shadow-2xs cursor-pointer"
+              title="Download PDF Resume"
+            >
+              <Download className="w-3.5 h-3.5 text-white" />
+              <span>{isExporting ? "..." : "PDF"}</span>
+            </button>
+
             <button
               onClick={loadSample}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-[11px] min-h-[34px] hover:bg-emerald-100 transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-[11px] min-h-[34px] hover:bg-emerald-100 transition-colors"
               title="Load Sample Graduate Data"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Load Demo</span>
+              <span className="hidden min-[360px]:inline">Demo</span>
             </button>
+
             <button
               onClick={clearData}
               className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 font-semibold text-[11px] min-h-[34px] hover:bg-slate-200 transition-colors"
               title="Clear all fields"
             >
               <Trash2 className="w-3.5 h-3.5 text-slate-500" />
-              <span>Clear</span>
             </button>
           </div>
 
@@ -1043,8 +1054,8 @@ function BuilderContent() {
             </div>
 
             {/* A4 Document Responsive Scaled Container */}
-            <div className="w-full flex justify-center overflow-x-auto py-2 no-scrollbar">
-              <div className="w-full flex justify-center origin-top transform scale-[0.52] min-[375px]:scale-[0.58] min-[414px]:scale-[0.64] sm:scale-[0.78] md:scale-[0.9] lg:scale-100 transition-transform duration-200">
+            <div className="w-full max-w-full flex justify-center overflow-x-hidden py-2">
+              <div className="w-full flex justify-center origin-top transform scale-[0.42] min-[375px]:scale-[0.46] min-[414px]:scale-[0.52] sm:scale-[0.72] md:scale-[0.88] lg:scale-100 transition-transform duration-200">
                 <ResumePreview 
                   data={resumeData} 
                   template={template} 
