@@ -120,7 +120,7 @@ export function useResumeData() {
           personalInfo: { ...initialEmptyResume.personalInfo, ...(parsed.personalInfo || {}) }
         };
       }
-      if (savedTemplate && ["modern", "professional", "minimal", "executive", "creative"].includes(savedTemplate)) {
+      if (savedTemplate && ["modern", "professional", "minimal", "executive"].includes(savedTemplate)) {
         initialTpl = savedTemplate;
       }
       if (savedAccent && ["charcoal", "blue", "red", "emerald", "purple"].includes(savedAccent)) {

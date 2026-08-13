@@ -4,7 +4,6 @@ import { ModernTemplate } from "@/components/templates/ModernTemplate";
 import { ProfessionalTemplate } from "@/components/templates/ProfessionalTemplate";
 import { MinimalTemplate } from "@/components/templates/MinimalTemplate";
 import { ExecutiveTemplate } from "@/components/templates/ExecutiveTemplate";
-import { CreativeTemplate } from "@/components/templates/CreativeTemplate";
 
 interface ResumePreviewProps {
   data: ResumeData;
@@ -29,8 +28,6 @@ export const ResumePreview = React.memo(function ResumePreview({
         return <MinimalTemplate data={data} accentColor={accentColor} sectionVisibility={sectionVisibility} sectionOrder={sectionOrder} />;
       case "executive":
         return <ExecutiveTemplate data={data} accentColor={accentColor} sectionVisibility={sectionVisibility} sectionOrder={sectionOrder} />;
-      case "creative":
-        return <CreativeTemplate data={data} accentColor={accentColor} sectionVisibility={sectionVisibility} sectionOrder={sectionOrder} />;
       case "modern":
       default:
         return <ModernTemplate data={data} accentColor={accentColor} sectionVisibility={sectionVisibility} sectionOrder={sectionOrder} />;

@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "GradForge | Modern Resume Builder for Students & Graduates",
-  description: "Build professional, ATS-friendly resumes effortlessly. Designed for fresh graduates and students with live preview, 5 professional templates, and instant PDF download.",
+  description: "Build professional, ATS-friendly resumes effortlessly. Designed for fresh graduates and students with live preview, 4 professional templates, and instant PDF download.",
 };
 
 export default function RootLayout({

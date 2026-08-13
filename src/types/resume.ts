@@ -1,4 +1,4 @@
-export type TemplateType = "modern" | "professional" | "minimal" | "executive" | "creative";
+export type TemplateType = "modern" | "professional" | "minimal" | "executive";
 
 export type SectionId = "summary" | "education" | "experience" | "skills" | "projects" | "certifications" | "achievements";
 

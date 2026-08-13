@@ -124,7 +124,7 @@ function BuilderContent() {
 
   // Set template from query string if passed from landing page
   useEffect(() => {
-    if (templateQuery && ["modern", "professional", "minimal", "executive", "creative"].includes(templateQuery)) {
+    if (templateQuery && ["modern", "professional", "minimal", "executive"].includes(templateQuery)) {
       setTemplate(templateQuery as TemplateType);
     }
   }, [templateQuery, setTemplate]);
@@ -806,7 +806,7 @@ function BuilderContent() {
 
           {/* Desktop Template Switcher Pills */}
           <div className="hidden md:flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs gap-0.5">
-            {(["modern", "professional", "minimal", "executive", "creative"] as TemplateType[]).map(tKey => (
+            {(["modern", "professional", "minimal", "executive"] as TemplateType[]).map(tKey => (
               <button
                 key={tKey}
                 onClick={() => setTemplate(tKey)}
@@ -945,7 +945,7 @@ function BuilderContent() {
         {/* Mobile Horizontal Template Scroll Row */}
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 max-w-full">
           <LayoutTemplate className="w-3.5 h-3.5 text-slate-500 shrink-0 mr-1" />
-          {(["modern", "professional", "minimal", "executive", "creative"] as TemplateType[]).map(tKey => (
+          {(["modern", "professional", "minimal", "executive"] as TemplateType[]).map(tKey => (
             <button
               key={tKey}
               onClick={() => setTemplate(tKey)}

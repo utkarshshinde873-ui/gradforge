@@ -101,7 +101,7 @@ export default function Home() {
               }`}
             >
               <LayoutTemplate className="w-5 h-5" />
-              <span>{showTemplates ? "Hide Templates" : "Explore 5 Templates"}</span>
+              <span>{showTemplates ? "Hide Templates" : "Explore 4 Templates"}</span>
               {showTemplates ? <ChevronUp className="w-4 h-4 ml-1" /> : <ChevronDown className="w-4 h-4 ml-1" />}
             </button>
           </div>
@@ -243,14 +243,14 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-                5 ATS-Friendly Resume Templates
+                4 ATS-Friendly Resume Templates
               </h2>
               <p className="mt-3 text-slate-600">
                 Switch between templates with a single click without re-entering any data.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Modern Template Card */}
               <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
                 <div className="bg-zinc-900 text-white p-3.5 border-b border-zinc-800 flex items-center justify-between">
@@ -364,31 +364,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Creative Template Card */}
-              <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
-                <div className="bg-zinc-900 text-white p-3.5 border-b border-zinc-800 flex items-center justify-between">
-                  <span className="font-bold text-xs">5. Creative</span>
-                  <span className="text-[10px] bg-zinc-700 text-white px-2 py-0.5 rounded-full font-medium">Dark Banner</span>
-                </div>
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="aspect-[1/1.2] bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4 font-sans text-[9px] text-slate-500 overflow-hidden space-y-1.5 group-hover:border-zinc-400 transition-colors">
-                      <div className="bg-zinc-900 text-white font-bold p-1 rounded text-[8px]">TAYLOR REED</div>
-                      <div className="h-1.5 bg-zinc-200 rounded w-full"></div>
-                    </div>
-                    <h4 className="font-semibold text-slate-900 text-sm mb-1">Creative Tech</h4>
-                    <p className="text-[11px] text-slate-600 mb-4 leading-relaxed">
-                      Dark obsidian header box with high-contrast badge skills and timeline lines.
-                    </p>
-                  </div>
-                  <Link
-                    href="/builder?template=creative"
-                    className="w-full text-center bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold py-2 rounded-lg transition-all shadow-xs"
-                  >
-                    Use Creative
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
         </section>
